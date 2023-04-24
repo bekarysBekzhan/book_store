@@ -30,24 +30,18 @@ BEGIN
 END;
 
 --3) Procedure which uses SQL%ROWCOUNT to determine the number of rows affected
-CREATE OR REPLACE PROCEDURE update_books(
+CREATE OR REPLACE PROCEDURE update_stock (
     p_publisher_id IN NUMBER,
-    p_publishdate IN DATE,
-    p_price IN NUMBER
-)
-IS
+    p_stock_change IN NUMBER
+) AS
 BEGIN
     UPDATE books
-    SET publisher_id = p_publisher_id, publishdate = p_publishdate, price = p_price;
-    
-    IF SQL%ROWCOUNT = 0 THEN
-        DBMS_OUTPUT.PUT_LINE('No rows updated.');
-    ELSIF SQL%ROWCOUNT = 1 THEN
-        DBMS_OUTPUT.PUT_LINE('1 row updated.');
-    ELSE
-        DBMS_OUTPUT.PUT_LINE(SQL%ROWCOUNT || ' rows updated.');
-    END IF;
+    SET stock = stock + p_stock_change
+    WHERE publisher_id = p_publisher_id;
+
+    DBMS_OUTPUT.PUT_LINE(SQL%ROWCOUNT || ' book(s) updated.');
 END;
+
 
 --4) Trigger before insert on any entity which will show the current number of rows in the table
 CREATE OR REPLACE TRIGGER trg_count_rows
