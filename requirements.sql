@@ -61,15 +61,15 @@ END;
 
 --5) User-defined exception which disallows to enter title of item (e.g. book) to be less than 5 characters
 CREATE OR REPLACE PROCEDURE Insert_Book(
-  p_title IN NUMBER,
-  p_author_id IN FLOAT,
-  p_publisher_id IN VARCHAR2,
-  p_publishdate IN NUMBER,
+  p_title IN VARCHAR2,
+  p_author_id IN NUMBER,
+  p_publisher_id IN NUMBER,
+  p_publishdate IN DATE,
   p_pages IN NUMBER,
   p_price IN NUMBER,
   p_isbn IN VARCHAR2,
   p_cover IN VARCHAR2,
-  p_stock number
+  p_stock IN number
 )
 IS
   EX_title_too_short EXCEPTION;
@@ -88,8 +88,8 @@ BEGIN
       pages,
       price,
       isbn,
-	cover,
-	stock
+      cover,
+      stock
     ) VALUES (
       p_title,
       p_author_id,
@@ -97,9 +97,9 @@ BEGIN
       p_publishdate,
       p_pages,
       p_price,
-	p_isbn,
-	p_cover,
-	p_stock
+      p_isbn,
+      p_cover,
+      p_stock
     );
   END IF;
 EXCEPTION
